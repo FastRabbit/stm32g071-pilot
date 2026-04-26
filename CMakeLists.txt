@@ -22,20 +22,21 @@ set(TARGET_NAME ${PROJECT_NAME})
 
 # ── Source files ──────────────────────────────────────────────────────────────
 set(APP_SOURCES
-    Core/Src/main.cpp
-    Core/Src/system_stm32g0xx.c
-    Core/Src/startup_stm32g071xx.s
-    Core/Src/uart1.c
-    Core/Src/uart2.c
-    Core/Src/syscalls.c
-    Core/Src/spi1.c
-    Core/Src/spi2.c
-    Core/Src/fdcan1.c
+    App/Src/main.cpp
+    Driver/Src/system_stm32g0xx.c
+    Driver/Src/startup_stm32g071xx.s
+    Driver/Src/uart1.c
+    Driver/Src/uart2.c
+    Driver/Src/syscalls.c
+    Driver/Src/spi1.c
+    Driver/Src/spi2.c
+    Driver/Src/fdcan1.c
 )
 
 # ── Include directories ───────────────────────────────────────────────────────
 set(INCLUDE_DIRS
-    Core/Inc
+    App/Inc
+    Driver/Inc
     thirdparty/CMSIS/Core/Include
     thirdparty/CMSIS/Device/ST/STM32G0xx/Include
 )

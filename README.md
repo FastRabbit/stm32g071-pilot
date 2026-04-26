@@ -1,6 +1,6 @@
 # stm32g071-pilot
 
-Bare-metal LL-based superloop firmware for **NUCLEO-G071RB**.
+Bare-metal superloop firmware for **NUCLEO-G0B1RET6**.
 
 ## Prerequisites
 
@@ -15,14 +15,16 @@ Bare-metal LL-based superloop firmware for **NUCLEO-G071RB**.
 
 ```
 stm32g071-pilot/
-├── cmake/                   # Toolchain and module files
-├── Core/                    # Application sources and headers
+├── App/                     # Application-layer code (main loop, app config)
 │   ├── Inc/
 │   └── Src/
+├── Driver/                  # Low-level driver and platform code
+│   ├── Inc/
+│   └── Src/
+├── cmake/                   # Toolchain and module files
 ├── ld/                      # Linker scripts
-├── thirdparty/              # Read-only vendor code (CMSIS, LL drivers)
-│   ├── CMSIS/
-│   └── STM32G0xx_LL_Driver/
+├── thirdparty/              # Read-only vendor code (CMSIS)
+│   └── CMSIS/
 └── CMakeLists.txt
 ```
 
@@ -58,17 +60,22 @@ openocd -f interface/stlink.cfg -f target/stm32g0x.cfg \
 
 ## Peripherals
 
-| Peripheral | Pin (NUCLEO-G071RB default) | Notes |
+| Peripheral | Pin (NUCLEO-G0B1RET6) | Notes |
 |------------|----------------------------|-------|
 | LED (LD4)  | PA5 | Green user LED |
 | USART1 TX  | PA9 | AF1 |
 | USART1 RX  | PA10 | AF1 |
 | USART2 TX  | PA2 | AF1 — printf target |
 | USART2 RX  | PA3 | AF1 |
-| SPI1 SCK   | PA5 | AF0 |
-| SPI1 MISO  | PA6 | AF0 |
-| SPI1 MOSI  | PA7 | AF0 |
-| CAN/FDCAN  | See `Core/Inc/can.h` | Verify hardware availability |
+| SPI1 SCK   | PB3 | AF0 |
+| SPI1 MISO  | PB4 | AF0 |
+| SPI1 MOSI  | PB5 | AF0 |
+| SPI2 SCK   | PB13 | AF0 |
+| SPI2 MISO  | PB14 | AF0 |
+| SPI2 MOSI  | PB15 | AF0 |
+| FDCAN1 RX  | PB8 | AF3 |
+| FDCAN1 TX  | PB9 | AF3 |
+| CAN/FDCAN  | See `Driver/Inc/fdcan1.h` | Driver scaffold with IRQ hook |
 
 ## Serial (printf)
 
