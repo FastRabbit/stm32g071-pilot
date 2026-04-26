@@ -1,0 +1,32 @@
+# Build outputs
+build/
+*.elf
+*.hex
+*.bin
+*.map
+*.lst
+
+# CMake generated
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Object files
+*.o
+*.a
+*.d
+
+# IDE / tool files
+.vscode/
+*.ioc
+*.uvprojx
+*.uvoptx
+*.uvguix
+.DS_Store
+
+# OpenOCD / debugger
+*.cfg.bak
+
+# Toolchain binaries
+*.axf
