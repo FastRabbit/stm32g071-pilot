@@ -6,20 +6,13 @@ extern "C" {
 #endif
 
 #include "stm32g0xx.h"
-#include <stdint.h>
+#include "fdcan_codec.h"   /* FDCAN_Message_t and element helpers */
 
 /* =========================================================== */
-/*  FDCAN1 — Interrupt-driven CAN FD                          */
-/*  Pins: PB8 RX / PB9 TX (AF3)                              */
-/*  Bitrate: 500 kbps (nominal), 1 Mbps (data)                */
+/*  FDCAN1 — CAN 2.0 driver                                   */
+/*  Pins : PB8 RX / PB9 TX (AF3)                             */
+/*  Rate : 500 kbps nominal @ 64 MHz                          */
 /* =========================================================== */
-
-typedef struct {
-    uint32_t id;        /* CAN ID (11-bit or 29-bit) */
-    uint8_t  dlc;       /* Data length (0-8 bytes) */
-    uint8_t  data[8];   /* Payload */
-    uint32_t flags;     /* Extended ID, FDF, etc. */
-} FDCAN_Message_t;
 
 typedef void (*FDCAN_Callback_t)(const FDCAN_Message_t *msg);
 

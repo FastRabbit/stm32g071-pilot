@@ -120,74 +120,53 @@ typedef struct {
     __IO uint32_t CCR;
 } DMAMUX_Channel_TypeDef;
 
+/*
+ * FDCAN register layout per RM0444 section 24.6 (STM32G0B1).
+ * Offsets relative to FDCANx_BASE.
+ */
 typedef struct {
-    __IO uint32_t CREL;         /* Version */
-    __IO uint32_t ENDN;         /* Endianness */
-    uint32_t      RESERVED0[1];
-    __IO uint32_t CCCR;         /* Clock config / control */
-    __IO uint32_t NBTP;         /* Nominal bitrate */
-    __IO uint32_t TSYNC;        /* Timestamp sync */
-    __IO uint32_t ECRC;         /* Error correction */
-    __IO uint32_t PSR;          /* Protocol status */
-    __IO uint32_t TDCR;         /* Transmitter delay compensation */
-    uint32_t      RESERVED1[1];
-    __IO uint32_t IR;           /* Interrupt register */
-    __IO uint32_t IE;           /* Interrupt enable */
-    __IO uint32_t ILS;          /* Interrupt line select */
-    __IO uint32_t ILE;          /* Interrupt line enable */
-    uint32_t      RESERVED2[8];
-    __IO uint32_t RXGPC;        /* RX global process control */
-    __IO uint32_t RXFIS;        /* RX filter index setup */
-    __IO uint32_t RXFI0;        /* RX FIFO 0 */
-    __IO uint32_t RXFI1;        /* RX FIFO 1 */
-    uint32_t      RESERVED3[8];
-    __IO uint32_t RXESC;        /* RX element size config */
-    __IO uint32_t TXESC;        /* TX element size config */
-    __IO uint32_t TXBRP;        /* TX buffer request pending */
-    __IO uint32_t TXFQS;        /* TX FIFO queue status */
-    __IO uint32_t TXEFC;        /* TX event FIFO config */
+    __IO uint32_t CREL;          /* +0x000  Core release */
+    __IO uint32_t ENDN;          /* +0x004  Endianness */
+    uint32_t      RESERVED0;    /* +0x008 */
+    __IO uint32_t CCCR;          /* +0x00C  Clock control and config */
+    __IO uint32_t NBTP;          /* +0x010  Nominal bitrate */
+    __IO uint32_t TSCC;          /* +0x014  Timestamp counter config */
+    __IO uint32_t TSCV;          /* +0x018  Timestamp counter value */
+    __IO uint32_t TOCC;          /* +0x01C  Timeout counter config */
+    __IO uint32_t TOCV;          /* +0x020  Timeout counter value */
+    uint32_t      RESERVED1[7]; /* +0x024-0x03C */
+    __IO uint32_t ECR;           /* +0x040  Error counter */
+    __IO uint32_t PSR;           /* +0x044  Protocol status */
+    __IO uint32_t TDCR;          /* +0x048  Transmitter delay compensation */
+    uint32_t      RESERVED2;    /* +0x04C */
+    __IO uint32_t IR;            /* +0x050  Interrupt register (write 1 to clear) */
+    __IO uint32_t IE;            /* +0x054  Interrupt enable */
+    __IO uint32_t ILS;           /* +0x058  Interrupt line select */
+    __IO uint32_t ILE;           /* +0x05C  Interrupt line enable */
+    uint32_t      RESERVED3[8]; /* +0x060-0x07C */
+    __IO uint32_t RXGFC;         /* +0x080  RX global filter config (F0S, LSS, ANFS) */
+    __IO uint32_t XIDAM;         /* +0x084  Extended ID and mask */
+    __IO uint32_t HPMS;          /* +0x088  High priority message status */
+    uint32_t      RESERVED4;    /* +0x08C */
+    __IO uint32_t RXF0S;         /* +0x090  RX FIFO 0 status (fill level, get index) */
+    __IO uint32_t RXF0A;         /* +0x094  RX FIFO 0 acknowledge */
+    __IO uint32_t RXF1S;         /* +0x098  RX FIFO 1 status */
+    __IO uint32_t RXF1A;         /* +0x09C  RX FIFO 1 acknowledge */
+    uint32_t      RESERVED5[8]; /* +0x0A0-0x0BC */
+    __IO uint32_t TXESC;         /* +0x0C0  TX element size config (TBDS) */
+    __IO uint32_t TXBC;          /* +0x0C4  TX buffer config (NDTB, TFQS) */
+    __IO uint32_t TXFQS;         /* +0x0C8  TX FIFO/queue status */
+    __IO uint32_t TXBRP;         /* +0x0CC  TX buffer request pending (read-only) */
+    __IO uint32_t TXBAR;         /* +0x0D0  TX buffer add request */
+    __IO uint32_t TXBCR;         /* +0x0D4  TX buffer cancellation request */
+    __IO uint32_t TXBTO;         /* +0x0D8  TX buffer transmission occurred */
+    __IO uint32_t TXBCF;         /* +0x0DC  TX buffer cancellation finished */
+    __IO uint32_t TXBTIE;        /* +0x0E0  TX buffer transmission interrupt enable */
+    __IO uint32_t TXBCIE;        /* +0x0E4  TX buffer cancellation interrupt enable */
+    uint32_t      RESERVED6;    /* +0x0E8 */
+    __IO uint32_t TXEFS;         /* +0x0EC  TX event FIFO status */
+    __IO uint32_t TXEFA;         /* +0x0F0  TX event FIFO acknowledge */
 } FDCAN_TypeDef;
-
-typedef struct {
-    __IO uint32_t CREL;
-    __IO uint32_t ENDN;
-    uint32_t      RESERVED1;
-    __IO uint32_t DBTP;
-    __IO uint32_t TEST;
-    __IO uint32_t RWD;
-    __IO uint32_t CCCR;
-    __IO uint32_t NBTP;
-    __IO uint32_t TSYNC;
-    __IO uint32_t ECRC;
-    __IO uint32_t PSR;
-    __IO uint32_t TDCR;
-    uint32_t      RESERVED2;
-    __IO uint32_t IR;
-    __IO uint32_t IE;
-    __IO uint32_t ILS;
-    __IO uint32_t ILE;
-    uint32_t      RESERVED3[8];
-    __IO uint32_t RXGPC;
-    __IO uint32_t RXFIS;
-    __IO uint32_t RXFI0;
-    __IO uint32_t RXFI1;
-    uint32_t      RESERVED4[8];
-    __IO uint32_t RXESC;
-    __IO uint32_t TXESC;
-    __IO uint32_t TXBRP;
-    __IO uint32_t TXFQS;
-    __IO uint32_t TXESC_2;
-    __IO uint32_t TXEFC;
-} FDCAN_GlobalTypeDef;
-
-typedef struct {
-    __IO uint32_t CCCR;
-    __IO uint32_t NBTP;
-    __IO uint32_t TSYNC;
-    __IO uint32_t ECRC;
-    __IO uint32_t PSR;
-    __IO uint32_t TDCR;
-} FDCAN_Config_TypeDef;
 
 typedef struct {
     __IO uint32_t CR;
@@ -252,6 +231,8 @@ typedef struct {
 
 #define FDCAN1_BASE         (APB1PERIPH_BASE + 0x8400UL)
 #define FDCAN2_BASE         (APB1PERIPH_BASE + 0x8800UL)
+/* Shared CAN message RAM (RM0444 §24.3) */
+#define SRAMCAN_BASE        0x4000AC00UL
 
 /* ========================================================================= */
 /*  Peripheral declarations                                                  */
