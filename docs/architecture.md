@@ -1,5 +1,15 @@
 # Architecture
 
+This project is intentionally split into clear layers.
+
+## Layering Rules
+
+- App layer orchestrates system behavior and sequencing.
+- Driver layer owns direct register/peripheral access.
+- App can call Driver APIs.
+- Driver must not depend on App symbols.
+- Tests should target pure logic and helper modules when possible.
+
 ## Layer Overview
 
 ```mermaid
@@ -18,6 +28,22 @@ graph TD
 ```
 
 Codec helpers (`fdcan_codec.c/h`) depend only on `<stdint.h>` and are fully testable on a host build without MCU headers.
+
+## Folder Responsibilities
+
+- App/Inc, App/Src
+  - Application entry and superloop behavior.
+  - High-level startup sequence and orchestration.
+
+- Driver/Inc, Driver/Src
+  - Peripheral drivers (UART, SPI, FDCAN).
+  - Platform/system code (startup, system clock, syscalls).
+
+- tests
+  - Host-side tests runnable without target hardware.
+
+- thirdparty
+  - Vendor/CMSIS code treated as read-only input.
 
 ## Directory Structure
 
@@ -52,6 +78,18 @@ stm32g071-pilot/
 └── CMakeLists.txt          # Cross-compile firmware build
 ```
 
+## Dependency Direction
+
+Allowed:
+- App -> Driver
+- App -> thirdparty (indirectly via Driver headers where needed)
+- Driver -> thirdparty
+- tests -> Driver helper modules
+
+Avoid:
+- Driver -> App
+- tests -> hardware-only side effects
+
 ## Build Targets
 
 | Target | Command | Description |
@@ -81,3 +119,10 @@ graph LR
 | FDCAN1_IT0_IRQn | FDCAN1_IT0_IRQHandler | FDCAN1 RX FIFO 0 new message |
 
 All interrupts use default NVIC priority (0).
+
+## Suggested Evolution
+
+1. Keep register-touching code minimal and concentrated in Driver.
+2. Move parsers/packers/validation logic into testable helper modules.
+3. Use narrow headers in Driver/Inc to keep interfaces stable.
+4. Expand tests around helper modules before hardware integration.
