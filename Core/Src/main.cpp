@@ -9,11 +9,11 @@
  *   4. Enter while(1) toggle loop at 500 ms cadence
  */
 #include "main.h"
+#include "system_stm32g0xx.h"
 
 /* =========================================================== */
 /*  Forward declarations                                         */
 /* =========================================================== */
-extern void SystemClock_Config(void);
 static void GPIO_Init(void);
 static void TIM6_Init(void);
 static void delay_ms(uint32_t ms);

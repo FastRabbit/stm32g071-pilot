@@ -7,17 +7,19 @@ if(NOT CMAKE_TOOLCHAIN_FILE)
         CACHE FILEPATH "Toolchain file")
 endif()
 
-project(stm32g071-pilot C ASM)
+project(stm32g071-pilot C CXX ASM)
 
-set(CMAKE_C_STANDARD   11)
-set(CMAKE_C_EXTENSIONS ON)  # GNU extensions needed for embedded idioms
+set(CMAKE_C_STANDARD    11)
+set(CMAKE_C_EXTENSIONS  ON)  # GNU extensions needed for embedded idioms
+set(CMAKE_CXX_STANDARD  17)
+set(CMAKE_CXX_EXTENSIONS ON)
 
 # ── Target name ───────────────────────────────────────────────────────────────
 set(TARGET_NAME ${PROJECT_NAME})
 
 # ── Source files ──────────────────────────────────────────────────────────────
 set(APP_SOURCES
-    Core/Src/main.c
+    Core/Src/main.cpp
     Core/Src/system_stm32g0xx.c
     Core/Src/startup_stm32g071xx.s
 )
@@ -43,6 +45,9 @@ set(COMMON_FLAGS
     -fdata-sections
     -ffunction-sections
     -fno-exceptions
+    -fno-rtti
+    -fno-use-cxa-atexit
+    -fno-threadsafe-statics
     -fno-unwind-tables
     -fno-asynchronous-unwind-tables
 )

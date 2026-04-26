@@ -15,6 +15,7 @@ extern uint32_t SystemCoreClock;
 
 void SystemInit(void);
 void SystemCoreClockUpdate(void);
+void SystemClock_Config(void);
 
 #ifdef __cplusplus
 }
