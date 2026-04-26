@@ -30,6 +30,7 @@ set(APP_SOURCES
     Core/Src/syscalls.c
     Core/Src/spi1.c
     Core/Src/spi2.c
+    Core/Src/fdcan1.c
 )
 
 # ── Include directories ───────────────────────────────────────────────────────

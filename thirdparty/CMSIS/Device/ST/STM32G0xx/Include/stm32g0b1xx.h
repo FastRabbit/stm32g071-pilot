@@ -121,17 +121,31 @@ typedef struct {
 } DMAMUX_Channel_TypeDef;
 
 typedef struct {
-    __IO uint32_t CR;
-    __IO uint32_t SR;
-    __IO uint32_t ECR;
-    __IO uint32_t TXBRP;
-    __IO uint32_t TXFQS;
-    __IO uint32_t RXGPC;
-    __IO uint32_t RXFIS;
-    __IO uint32_t RXFI[64];
-    __IO uint32_t RXESC;
-    __IO uint32_t TXESC;
-    __IO uint32_t TXEFC;
+    __IO uint32_t CREL;         /* Version */
+    __IO uint32_t ENDN;         /* Endianness */
+    uint32_t      RESERVED0[1];
+    __IO uint32_t CCCR;         /* Clock config / control */
+    __IO uint32_t NBTP;         /* Nominal bitrate */
+    __IO uint32_t TSYNC;        /* Timestamp sync */
+    __IO uint32_t ECRC;         /* Error correction */
+    __IO uint32_t PSR;          /* Protocol status */
+    __IO uint32_t TDCR;         /* Transmitter delay compensation */
+    uint32_t      RESERVED1[1];
+    __IO uint32_t IR;           /* Interrupt register */
+    __IO uint32_t IE;           /* Interrupt enable */
+    __IO uint32_t ILS;          /* Interrupt line select */
+    __IO uint32_t ILE;          /* Interrupt line enable */
+    uint32_t      RESERVED2[8];
+    __IO uint32_t RXGPC;        /* RX global process control */
+    __IO uint32_t RXFIS;        /* RX filter index setup */
+    __IO uint32_t RXFI0;        /* RX FIFO 0 */
+    __IO uint32_t RXFI1;        /* RX FIFO 1 */
+    uint32_t      RESERVED3[8];
+    __IO uint32_t RXESC;        /* RX element size config */
+    __IO uint32_t TXESC;        /* TX element size config */
+    __IO uint32_t TXBRP;        /* TX buffer request pending */
+    __IO uint32_t TXFQS;        /* TX FIFO queue status */
+    __IO uint32_t TXEFC;        /* TX event FIFO config */
 } FDCAN_TypeDef;
 
 typedef struct {
@@ -460,6 +474,23 @@ typedef enum {
 #define TIM_DIER_UIE            (1UL << 0)
 #define TIM_SR_UIF              (1UL << 0)
 #define TIM_EGR_UG              (1UL << 0)
+
+/* ========================================================================= */
+/*  FDCAN register bits                                                      */
+/* ========================================================================= */
+
+#define FDCAN_CCCR_INIT         (1UL << 0)
+#define FDCAN_CCCR_CCE          (1UL << 1)
+#define FDCAN_NBTP_NBRP_Pos     0U
+#define FDCAN_NBTP_NTSEG1_Pos   8U
+#define FDCAN_NBTP_NTSEG2_Pos   16U
+#define FDCAN_NBTP_NSJW_Pos     24U
+#define FDCAN_RXGPC_FLSA_Pos    0U
+#define FDCAN_RXGPC_FSE_Pos     8U
+#define FDCAN_TXFQS_TFQF        (1UL << 21)
+#define FDCAN_PSR_EP            (1UL << 5)
+#define FDCAN_PSR_BO            (1UL << 6)
+#define FDCAN_IR_RF0N           (1UL << 31)
 
 /* ========================================================================= */
 /*  External declarations                                                    */

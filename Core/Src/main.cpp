@@ -14,6 +14,7 @@
 #include "uart2.h"
 #include "spi1.h"
 #include "spi2.h"
+#include "fdcan1.h"
 #include <cstdio>
 
 /* =========================================================== */
@@ -35,8 +36,9 @@ int main(void)
     TIM6_Init();
     SPI1_Init();
     SPI2_Init();
+    FDCAN1_Init();
 
-    printf("[boot] STM32G071 ready — UART2 @ 115200 8N1\r\n");
+    printf("[boot] STM32G0B1 ready — UART2 @ 115200 8N1\r\n");
     printf("[boot] SPI1 (IRQ)  PB3/PB4/PB5 ready\r\n");
     printf("[boot] SPI2 (DMA)  PB13/PB14/PB15 ready\r\n");
 
