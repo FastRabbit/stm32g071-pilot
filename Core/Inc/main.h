@@ -8,7 +8,7 @@ extern "C" {
 #include "stm32g0xx.h"
 
 /* =========================================================== */
-/*  Board configuration (NUCLEO-G071RB)                         */
+/*  Board configuration (NUCLEO-G0B1RET6)                       */
 /* =========================================================== */
 
 /* Green user LED  — LD4 on PA5 */

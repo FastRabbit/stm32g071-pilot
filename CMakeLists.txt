@@ -41,7 +41,7 @@ set(INCLUDE_DIRS
 
 # ── Compile definitions ───────────────────────────────────────────────────────
 set(COMPILE_DEFS
-    STM32G071xx
+    STM32G0B1xx
     USE_FULL_LL_DRIVER
 )
 
@@ -65,7 +65,7 @@ set(CXX_ONLY_FLAGS
 
 # ── Linker script ─────────────────────────────────────────────────────────────
 set(LINKER_SCRIPT
-    "${CMAKE_CURRENT_SOURCE_DIR}/ld/stm32g071rb_flash.ld")
+    "${CMAKE_CURRENT_SOURCE_DIR}/ld/stm32g0b1ret6_flash.ld")
 
 # ── Linker flags ──────────────────────────────────────────────────────────────
 set(LINKER_FLAGS

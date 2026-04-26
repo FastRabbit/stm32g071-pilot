@@ -85,13 +85,9 @@ static void GPIO_Init(void)
 static void TIM6_Init(void)
 {
     /* Enable TIM6 clock on APB1 */
-    SET_BIT(RCC->APBENR1, RCC_APBENR1_TIM2EN); /* TIM6 shares APB1 */
+    SET_BIT(RCC->APBENR1, RCC_APBENR1_TIM6EN);
 
-    /* Actually enable TIM6 — its own bit */
-    /* TIM6 enable bit is bit 4 in APBENR1 */
-    SET_BIT(RCC->APBENR1, (1UL << 4U)); /* RCC_APBENR1_TIM6EN */
-
-    TIM6->CR1  = 0U;
+    TIM6->CR  = 0U;
     TIM6->PSC  = 63U;      /* /64 → 1 MHz */
     TIM6->ARR  = 999U;     /* count to 1000 → 1 ms */
     TIM6->EGR  = TIM_EGR_UG; /* force update to load PSC/ARR */
@@ -107,13 +103,13 @@ static void delay_ms(uint32_t ms)
         /* Start one 1 ms count */
         TIM6->CNT = 0U;
         TIM6->SR  = 0U;
-        SET_BIT(TIM6->CR1, TIM_CR1_CEN);
+        SET_BIT(TIM6->CR, TIM_CR_CEN);
 
         /* Wait for update flag */
         while (!READ_BIT(TIM6->SR, TIM_SR_UIF)) { /* spin */ }
 
         /* Stop timer */
-        CLEAR_BIT(TIM6->CR1, TIM_CR1_CEN);
+        CLEAR_BIT(TIM6->CR, TIM_CR_CEN);
         TIM6->SR = 0U;
     }
 }
