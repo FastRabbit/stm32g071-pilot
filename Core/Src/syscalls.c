@@ -8,7 +8,7 @@
  * _read, _close, _lseek, _fstat, _isatty are stubbed to silence linker
  * warnings from nosys.specs and to satisfy newlib's reentrancy layer.
  */
-#include "uart.h"
+#include "uart2.h"
 #include <sys/stat.h>
 #include <errno.h>
 #include <stdint.h>

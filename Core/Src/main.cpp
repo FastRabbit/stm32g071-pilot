@@ -10,8 +10,10 @@
  */
 #include "main.h"
 #include "system_stm32g0xx.h"
-#include "uart.h"
-#include "spi.h"
+#include "uart1.h"
+#include "uart2.h"
+#include "spi1.h"
+#include "spi2.h"
 #include <cstdio>
 
 /* =========================================================== */
