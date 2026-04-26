@@ -17,6 +17,17 @@ extern "C" {
 
 #include <stdint.h>
 
+/* Volatile qualifier used by CMSIS for memory-mapped registers */
+#ifndef __IO
+#define __IO  volatile
+#endif
+#ifndef __I
+#define __I   volatile const
+#endif
+#ifndef __O
+#define __O   volatile
+#endif
+
 /* =========================================================== */
 /*              NVIC                                             */
 /* =========================================================== */

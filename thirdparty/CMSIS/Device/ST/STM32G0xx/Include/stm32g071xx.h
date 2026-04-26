@@ -35,6 +35,8 @@ typedef enum {
     EXTI2_3_IRQn           = 6,
     EXTI4_15_IRQn          = 7,
     DMA1_Channel1_IRQn     = 9,
+    DMA1_Channel2_3_IRQHandler_IRQn = 10,   /* alias — see below */
+    DMA1_Channel2_3_IRQn   = 10,
     ADC1_IRQn              = 12,
     TIM1_BRK_UP_TRG_COM_IRQn = 13,
     TIM1_CC_IRQn           = 14,
@@ -366,6 +368,14 @@ typedef struct {
 #define SPI_SR_BSY              (1UL << SPI_SR_BSY_Pos)
 
 /* SPI_CR2 */
+#define SPI_CR2_RXDMAEN_Pos     (0U)
+#define SPI_CR2_RXDMAEN         (1UL << SPI_CR2_RXDMAEN_Pos)
+#define SPI_CR2_TXDMAEN_Pos     (1U)
+#define SPI_CR2_TXDMAEN         (1UL << SPI_CR2_TXDMAEN_Pos)
+#define SPI_CR2_RXNEIE_Pos      (6U)
+#define SPI_CR2_RXNEIE          (1UL << SPI_CR2_RXNEIE_Pos)
+#define SPI_CR2_TXEIE_Pos       (7U)
+#define SPI_CR2_TXEIE           (1UL << SPI_CR2_TXEIE_Pos)
 #define SPI_CR2_DS_Pos          (8U)
 #define SPI_CR2_DS_Msk          (0xFUL << SPI_CR2_DS_Pos)
 #define SPI_CR2_FRXTH_Pos       (12U)
@@ -389,6 +399,135 @@ typedef struct {
 #define FLASH_ACR_LATENCY_Pos   (0U)
 #define FLASH_ACR_LATENCY_Msk   (0x7UL << FLASH_ACR_LATENCY_Pos)
 #define FLASH_ACR_LATENCY_2WS   (0x2UL << FLASH_ACR_LATENCY_Pos)
+
+/* =========================================================== */
+/*              DMA / DMAMUX Peripheral Structures               */
+/* =========================================================== */
+
+/* -- DMA Channel -- */
+typedef struct {
+    volatile uint32_t CCR;    /* channel configuration  */
+    volatile uint32_t CNDTR;  /* number of data         */
+    volatile uint32_t CPAR;   /* peripheral address     */
+    volatile uint32_t CMAR;   /* memory address         */
+    uint32_t          RESERVED;
+} DMA_Channel_TypeDef;
+
+/* -- DMA (global interrupt/flag registers) -- */
+typedef struct {
+    volatile uint32_t ISR;    /* interrupt status  */
+    volatile uint32_t IFCR;   /* interrupt flag clear */
+} DMA_TypeDef;
+
+/* -- DMAMUX Channel (one entry per DMA channel) -- */
+typedef struct {
+    volatile uint32_t CCR;    /* channel config: DMAREQ_ID[6:0] */
+} DMAMUX_Channel_TypeDef;
+
+/* =========================================================== */
+/*              DMA / DMAMUX Memory Map                          */
+/* =========================================================== */
+#define DMA1_BASE               (AHBPERIPH_BASE + 0x00000000UL)
+#define DMAMUX1_BASE            (AHBPERIPH_BASE + 0x00000800UL)
+
+/* DMA1 channel bases (each channel is 0x14 bytes apart from Ch1 at +0x08) */
+#define DMA1_Channel1_BASE      (DMA1_BASE + 0x00000008UL)
+#define DMA1_Channel2_BASE      (DMA1_BASE + 0x0000001CUL)
+#define DMA1_Channel3_BASE      (DMA1_BASE + 0x00000030UL)
+#define DMA1_Channel4_BASE      (DMA1_BASE + 0x00000044UL)
+#define DMA1_Channel5_BASE      (DMA1_BASE + 0x00000058UL)
+#define DMA1_Channel6_BASE      (DMA1_BASE + 0x0000006CUL)
+#define DMA1_Channel7_BASE      (DMA1_BASE + 0x00000080UL)
+
+/* DMAMUX1 channel bases — DMAMUX1_Ch(n-1) maps to DMA1_Ch(n) */
+#define DMAMUX1_Channel0_BASE   (DMAMUX1_BASE + 0x00000000UL)  /* → DMA1_Ch1 */
+#define DMAMUX1_Channel1_BASE   (DMAMUX1_BASE + 0x00000004UL)  /* → DMA1_Ch2 */
+#define DMAMUX1_Channel2_BASE   (DMAMUX1_BASE + 0x00000008UL)  /* → DMA1_Ch3 */
+#define DMAMUX1_Channel3_BASE   (DMAMUX1_BASE + 0x0000000CUL)  /* → DMA1_Ch4 */
+#define DMAMUX1_Channel4_BASE   (DMAMUX1_BASE + 0x00000010UL)  /* → DMA1_Ch5 */
+
+/* =========================================================== */
+/*              DMA / DMAMUX Peripheral Declarations             */
+/* =========================================================== */
+#define DMA1            ((DMA_TypeDef *)DMA1_BASE)
+#define DMA1_Channel1   ((DMA_Channel_TypeDef *)DMA1_Channel1_BASE)
+#define DMA1_Channel2   ((DMA_Channel_TypeDef *)DMA1_Channel2_BASE)
+#define DMA1_Channel3   ((DMA_Channel_TypeDef *)DMA1_Channel3_BASE)
+#define DMA1_Channel4   ((DMA_Channel_TypeDef *)DMA1_Channel4_BASE)
+#define DMA1_Channel5   ((DMA_Channel_TypeDef *)DMA1_Channel5_BASE)
+#define DMA1_Channel6   ((DMA_Channel_TypeDef *)DMA1_Channel6_BASE)
+#define DMA1_Channel7   ((DMA_Channel_TypeDef *)DMA1_Channel7_BASE)
+
+#define DMAMUX1_Channel0 ((DMAMUX_Channel_TypeDef *)DMAMUX1_Channel0_BASE)
+#define DMAMUX1_Channel1 ((DMAMUX_Channel_TypeDef *)DMAMUX1_Channel1_BASE)
+#define DMAMUX1_Channel2 ((DMAMUX_Channel_TypeDef *)DMAMUX1_Channel2_BASE)
+#define DMAMUX1_Channel3 ((DMAMUX_Channel_TypeDef *)DMAMUX1_Channel3_BASE)
+#define DMAMUX1_Channel4 ((DMAMUX_Channel_TypeDef *)DMAMUX1_Channel4_BASE)
+
+/* =========================================================== */
+/*              DMA Bit Definitions                              */
+/* =========================================================== */
+
+/* DMA_CCR */
+#define DMA_CCR_EN_Pos          (0U)
+#define DMA_CCR_EN              (1UL << DMA_CCR_EN_Pos)
+#define DMA_CCR_TCIE_Pos        (1U)
+#define DMA_CCR_TCIE            (1UL << DMA_CCR_TCIE_Pos)
+#define DMA_CCR_HTIE_Pos        (2U)
+#define DMA_CCR_HTIE            (1UL << DMA_CCR_HTIE_Pos)
+#define DMA_CCR_TEIE_Pos        (3U)
+#define DMA_CCR_TEIE            (1UL << DMA_CCR_TEIE_Pos)
+#define DMA_CCR_DIR_Pos         (4U)   /* 0 = periph→mem, 1 = mem→periph */
+#define DMA_CCR_DIR             (1UL << DMA_CCR_DIR_Pos)
+#define DMA_CCR_CIRC_Pos        (5U)
+#define DMA_CCR_CIRC            (1UL << DMA_CCR_CIRC_Pos)
+#define DMA_CCR_PINC_Pos        (6U)
+#define DMA_CCR_PINC            (1UL << DMA_CCR_PINC_Pos)
+#define DMA_CCR_MINC_Pos        (7U)
+#define DMA_CCR_MINC            (1UL << DMA_CCR_MINC_Pos)
+#define DMA_CCR_PSIZE_Pos       (8U)
+#define DMA_CCR_PSIZE_Msk       (0x3UL << DMA_CCR_PSIZE_Pos)
+#define DMA_CCR_PSIZE_8BIT      (0x0UL << DMA_CCR_PSIZE_Pos)
+#define DMA_CCR_MSIZE_Pos       (10U)
+#define DMA_CCR_MSIZE_Msk       (0x3UL << DMA_CCR_MSIZE_Pos)
+#define DMA_CCR_MSIZE_8BIT      (0x0UL << DMA_CCR_MSIZE_Pos)
+#define DMA_CCR_PL_Pos          (12U)  /* priority level */
+#define DMA_CCR_PL_Msk          (0x3UL << DMA_CCR_PL_Pos)
+#define DMA_CCR_PL_HIGH         (0x2UL << DMA_CCR_PL_Pos)
+
+/* DMA_ISR / DMA_IFCR — for channel N, bit offset = (N-1)*4 */
+/* Channel 3 (offset 8) */
+#define DMA_ISR_GIF3_Pos        (8U)
+#define DMA_ISR_GIF3            (1UL << DMA_ISR_GIF3_Pos)
+#define DMA_ISR_TCIF3_Pos       (9U)
+#define DMA_ISR_TCIF3           (1UL << DMA_ISR_TCIF3_Pos)
+#define DMA_ISR_TEIF3_Pos       (11U)
+#define DMA_ISR_TEIF3           (1UL << DMA_ISR_TEIF3_Pos)
+#define DMA_IFCR_CGIF3_Pos      (8U)
+#define DMA_IFCR_CGIF3          (1UL << DMA_IFCR_CGIF3_Pos)
+/* Channel 4 (offset 12) */
+#define DMA_ISR_GIF4_Pos        (12U)
+#define DMA_ISR_GIF4            (1UL << DMA_ISR_GIF4_Pos)
+#define DMA_ISR_TCIF4_Pos       (13U)
+#define DMA_ISR_TCIF4           (1UL << DMA_ISR_TCIF4_Pos)
+#define DMA_ISR_TEIF4_Pos       (15U)
+#define DMA_ISR_TEIF4           (1UL << DMA_ISR_TEIF4_Pos)
+#define DMA_IFCR_CGIF4_Pos      (12U)
+#define DMA_IFCR_CGIF4          (1UL << DMA_IFCR_CGIF4_Pos)
+
+/* DMAMUX CCR — DMAREQ_ID selects the peripheral request source */
+#define DMAMUX_CCR_DMAREQ_ID_Pos (0U)
+#define DMAMUX_CCR_DMAREQ_ID_Msk (0x7FUL << DMAMUX_CCR_DMAREQ_ID_Pos)
+
+/* DMAMUX request IDs for STM32G071 (RM0444 Table 47) */
+#define DMAMUX_REQ_SPI1_RX      12U
+#define DMAMUX_REQ_SPI1_TX      13U
+#define DMAMUX_REQ_SPI2_RX      14U
+#define DMAMUX_REQ_SPI2_TX      15U
+
+/* RCC_AHBENR */
+#define RCC_AHBENR_DMA1EN_Pos   (0U)
+#define RCC_AHBENR_DMA1EN       (1UL << RCC_AHBENR_DMA1EN_Pos)
 
 /* =========================================================== */
 /*              Utility Macros                                   */

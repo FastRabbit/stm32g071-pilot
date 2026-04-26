@@ -11,6 +11,7 @@
 #include "main.h"
 #include "system_stm32g0xx.h"
 #include "uart.h"
+#include "spi.h"
 #include <cstdio>
 
 /* =========================================================== */
@@ -30,8 +31,12 @@ int main(void)
     UART1_Init();
     GPIO_Init();
     TIM6_Init();
+    SPI1_Init();
+    SPI2_Init();
 
     printf("[boot] STM32G071 ready — UART2 @ 115200 8N1\r\n");
+    printf("[boot] SPI1 (IRQ)  PB3/PB4/PB5 ready\r\n");
+    printf("[boot] SPI2 (DMA)  PB13/PB14/PB15 ready\r\n");
 
     static uint32_t tick = 0U;
 

@@ -27,6 +27,7 @@ set(APP_SOURCES
     Core/Src/startup_stm32g071xx.s
     Core/Src/uart.c
     Core/Src/syscalls.c
+    Core/Src/spi.c
 )
 
 # ── Include directories ───────────────────────────────────────────────────────
