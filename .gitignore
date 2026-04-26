@@ -1,5 +1,6 @@
 # Build outputs
 build/
+build-host-tests/
 *.elf
 *.hex
 *.bin

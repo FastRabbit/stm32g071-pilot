@@ -9,6 +9,7 @@
  * Both Rx FIFO 0 and message reception trigger an interrupt.
  */
 #include "fdcan1.h"
+#include "fdcan_codec.h"
 #include <stddef.h>
 
 /* GPIO helper */
@@ -94,7 +95,7 @@ void FDCAN1_Init(void)
 
 int FDCAN1_SendMessage(const FDCAN_Message_t *msg)
 {
-    if (msg == NULL || msg->dlc > 8) {
+    if (msg == NULL || !FDCAN_Codec_IsClassicDlcValid(msg->dlc)) {
         return -1;
     }
 

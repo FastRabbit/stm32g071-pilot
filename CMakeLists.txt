@@ -25,6 +25,7 @@ set(APP_SOURCES
     App/Src/main.cpp
     Driver/Src/system_stm32g0xx.c
     Driver/Src/startup_stm32g071xx.s
+    Driver/Src/fdcan_codec.c
     Driver/Src/uart1.c
     Driver/Src/uart2.c
     Driver/Src/syscalls.c

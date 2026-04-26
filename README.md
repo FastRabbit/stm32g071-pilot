@@ -21,6 +21,7 @@ stm32g071-pilot/
 ├── Driver/                  # Low-level driver and platform code
 │   ├── Inc/
 │   └── Src/
+├── tests/                   # Host-side unit tests (CTest)
 ├── cmake/                   # Toolchain and module files
 ├── ld/                      # Linker scripts
 ├── thirdparty/              # Read-only vendor code (CMSIS)
@@ -44,6 +45,19 @@ Artifacts are written to `build/`:
 | `stm32g071-pilot.elf` | Debuggable ELF image |
 | `stm32g071-pilot.hex` | Intel HEX for flash tools |
 | `stm32g071-pilot.bin` | Raw binary |
+
+## Unit Tests (host)
+
+Host tests run natively (macOS/Linux/Windows) and do not require STM32 hardware.
+
+```bash
+cmake -S tests -B build-host-tests -DCMAKE_BUILD_TYPE=Debug
+cmake --build build-host-tests
+ctest --test-dir build-host-tests --output-on-failure
+```
+
+Current test coverage includes CAN DLC/length conversion helpers in
+`Driver/Src/fdcan_codec.c`.
 
 ## Flash
 
