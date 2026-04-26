@@ -6,10 +6,18 @@
 #ifndef STM32G0XX_H
 #define STM32G0XX_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifdef STM32G071xx
 #include "stm32g071xx.h"
 #else
 #error "Please define STM32G071xx (or another variant) in your build system."
+#endif
+
+#ifdef __cplusplus
+}
 #endif
 
 #endif /* STM32G0XX_H */
