@@ -27,7 +27,7 @@ set(CPU_FLAGS
 
 string(JOIN " " CPU_FLAGS_STR ${CPU_FLAGS})
 set(CMAKE_C_FLAGS_INIT   "${CPU_FLAGS_STR}")
-set(CMAKE_CXX_FLAGS_INIT "${CPU_FLAGS_STR} -fno-exceptions -fno-rtti -fno-use-cxa-atexit -fno-threadsafe-statics")
+set(CMAKE_CXX_FLAGS_INIT "${CPU_FLAGS_STR}")
 set(CMAKE_ASM_FLAGS_INIT "${CPU_FLAGS_STR} -x assembler-with-cpp")
 set(CMAKE_EXE_LINKER_FLAGS_INIT "${CPU_FLAGS_STR}")
 

@@ -106,6 +106,10 @@ SECTIONS
         *(.heap)
     } > RAM
 
+    /* Symbols used by newlib _sbrk */
+    end = .;
+    _end = end;
+
     /* ---- Discard unwanted sections ---- */
     /DISCARD/ :
     {

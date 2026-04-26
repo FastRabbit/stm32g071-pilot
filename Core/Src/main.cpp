@@ -10,6 +10,8 @@
  */
 #include "main.h"
 #include "system_stm32g0xx.h"
+#include "uart.h"
+#include <cstdio>
 
 /* =========================================================== */
 /*  Forward declarations                                         */
@@ -24,12 +26,19 @@ static void delay_ms(uint32_t ms);
 int main(void)
 {
     SystemClock_Config();
+    UART2_Init();
+    UART1_Init();
     GPIO_Init();
     TIM6_Init();
+
+    printf("[boot] STM32G071 ready — UART2 @ 115200 8N1\r\n");
+
+    static uint32_t tick = 0U;
 
     while (1) {
         /* Toggle LED */
         GPIOA->ODR ^= (1UL << LED_GPIO_PIN);
+        printf("[%lu] LED toggle\r\n", tick++);
         delay_ms(500);
     }
 

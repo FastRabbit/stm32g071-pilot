@@ -22,6 +22,8 @@ set(APP_SOURCES
     Core/Src/main.cpp
     Core/Src/system_stm32g0xx.c
     Core/Src/startup_stm32g071xx.s
+    Core/Src/uart.c
+    Core/Src/syscalls.c
 )
 
 # ── Include directories ───────────────────────────────────────────────────────
@@ -45,11 +47,14 @@ set(COMMON_FLAGS
     -fdata-sections
     -ffunction-sections
     -fno-exceptions
+    -fno-unwind-tables
+    -fno-asynchronous-unwind-tables
+)
+
+set(CXX_ONLY_FLAGS
     -fno-rtti
     -fno-use-cxa-atexit
     -fno-threadsafe-statics
-    -fno-unwind-tables
-    -fno-asynchronous-unwind-tables
 )
 
 # ── Linker script ─────────────────────────────────────────────────────────────
@@ -71,7 +76,10 @@ add_executable(${TARGET_NAME}.elf ${APP_SOURCES})
 
 target_include_directories(${TARGET_NAME}.elf PRIVATE ${INCLUDE_DIRS})
 target_compile_definitions(${TARGET_NAME}.elf PRIVATE ${COMPILE_DEFS})
-target_compile_options    (${TARGET_NAME}.elf PRIVATE ${COMMON_FLAGS})
+target_compile_options    (${TARGET_NAME}.elf PRIVATE
+    ${COMMON_FLAGS}
+    $<$<COMPILE_LANGUAGE:CXX>:${CXX_ONLY_FLAGS}>
+)
 
 target_link_options(${TARGET_NAME}.elf PRIVATE ${LINKER_FLAGS})
 
