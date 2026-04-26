@@ -6,6 +6,9 @@ build/
 *.map
 *.lst
 
+# compile_commands.json symlink — generated, not tracked
+compile_commands.json
+
 # CMake generated
 CMakeFiles/
 CMakeCache.txt

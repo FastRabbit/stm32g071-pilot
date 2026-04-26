@@ -14,6 +14,9 @@ set(CMAKE_C_EXTENSIONS  ON)  # GNU extensions needed for embedded idioms
 set(CMAKE_CXX_STANDARD  17)
 set(CMAKE_CXX_EXTENSIONS ON)
 
+# Always generate compile_commands.json for IDE / clangd support
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # ── Target name ───────────────────────────────────────────────────────────────
 set(TARGET_NAME ${PROJECT_NAME})
 
