@@ -2,6 +2,12 @@
 
 Bare-metal superloop firmware for **NUCLEO-G0B1RET6**.
 
+## Documentation
+
+- [Documentation index](docs/README.md)
+- [First steps](docs/first-steps.md)
+- [Development workflow](docs/development-workflow.md)
+
 ## Prerequisites
 
 | Tool | Version |
